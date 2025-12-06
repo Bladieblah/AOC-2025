@@ -11,7 +11,13 @@ const gpa = util.gpa;
 const data = @embedFile("data/day$.txt");
 
 pub fn main() !void {
-    
+    var p1: u32 = 0;
+    var p2: u32 = 0;
+
+    p1 = 0;
+    p2 = 0;
+
+    print("({d}, {d})\n", .{ p1, p2 });
 }
 
 // Useful stdlib functions

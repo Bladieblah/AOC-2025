@@ -11,36 +11,36 @@ const gpa = util.gpa;
 const data = @embedFile("data/day01.txt");
 
 pub fn main() !void {
-    
+    var lines = util.tokenizeSca(u8, data, '\n');
+    var acc: i32 = 50;
+    var p1: u32 = 0;
+    var p2: u32 = 0;
+
+    while (lines.next()) |line| {
+        const dir = line[0];
+        const num = util.parse_int(line[1..]);
+        switch (dir) {
+            'L' => {
+                if (acc == 0) {
+                    p2 -= 1;
+                }
+                acc = acc - num;
+            },
+            'R' => acc = acc + num,
+            else => unreachable,
+        }
+
+        p2 += @abs(@divFloor(acc, 100));
+
+        acc = @mod(acc, 100);
+
+        if (acc == 0) {
+            p1 += 1;
+            if (dir == 'L') {
+                p2 += 1;
+            }
+        }
+    }
+
+    util.print("({d}, {d})\n", .{ p1, p2 });
 }
-
-// Useful stdlib functions
-const tokenizeAny = std.mem.tokenizeAny;
-const tokenizeSeq = std.mem.tokenizeSequence;
-const tokenizeSca = std.mem.tokenizeScalar;
-const splitAny = std.mem.splitAny;
-const splitSeq = std.mem.splitSequence;
-const splitSca = std.mem.splitScalar;
-const indexOf = std.mem.indexOfScalar;
-const indexOfAny = std.mem.indexOfAny;
-const indexOfStr = std.mem.indexOfPosLinear;
-const lastIndexOf = std.mem.lastIndexOfScalar;
-const lastIndexOfAny = std.mem.lastIndexOfAny;
-const lastIndexOfStr = std.mem.lastIndexOfLinear;
-const trim = std.mem.trim;
-const sliceMin = std.mem.min;
-const sliceMax = std.mem.max;
-
-const parseInt = std.fmt.parseInt;
-const parseFloat = std.fmt.parseFloat;
-
-const print = std.debug.print;
-const assert = std.debug.assert;
-
-const sort = std.sort.block;
-const asc = std.sort.asc;
-const desc = std.sort.desc;
-
-// Generated from template/template.zig.
-// Run `zig build generate` to update.
-// Only unmodified days will be updated.
