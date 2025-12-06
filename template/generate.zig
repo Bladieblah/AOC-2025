@@ -7,18 +7,17 @@ const Hash = std.crypto.hash.Md5;
 const hashes_file = "template/hashes.bin";
 
 fn instantiateTemplate(template: []const u8, day: u32) ![]const u8 {
-    var list = std.ArrayList(u8).init(gpa.allocator());
-    errdefer list.deinit();
+    var list = try std.ArrayList(u8).initCapacity(gpa.allocator(), template.len + 100);
+    errdefer list.deinit(gpa.allocator());
 
-    try list.ensureTotalCapacity(template.len + 100);
     var rest: []const u8 = template;
     while (std.mem.indexOfScalar(u8, rest, '$')) |index| {
-        try list.appendSlice(rest[0..index]);
-        try std.fmt.format(list.writer(), "{d:0>2}", .{day});
+        try list.appendSlice(gpa.allocator(), rest[0..index]);
+        try std.fmt.format(list.writer(gpa.allocator()), "{d:0>2}", .{day});
         rest = rest[index + 1 ..];
     }
-    try list.appendSlice(rest);
-    return list.toOwnedSlice();
+    try list.appendSlice(gpa.allocator(), rest);
+    return list.toOwnedSlice(gpa.allocator());
 }
 
 fn readHashes() !*[25][Hash.digest_length]u8 {
@@ -57,7 +56,7 @@ pub fn main() !void {
     var skipped_any = false;
     var updated_hashes = false;
     var day: u32 = 1;
-    while (day <= 25) : (day += 1) {
+    while (day <= 12) : (day += 1) {
         const filename = try std.fmt.allocPrint(gpa.allocator(), "src/day{d:0>2}.zig", .{day});
         defer gpa.allocator().free(filename);
 
