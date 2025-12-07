@@ -71,6 +71,18 @@ pub fn add(A: anytype, B: @TypeOf(A)) @TypeOf(A) {
     return C;
 }
 
+pub fn sum(xs: []const usize) usize {
+    var r: usize = 0;
+    for (xs) |v| r += v;
+    return r;
+}
+
+pub fn product(xs: []const usize) usize {
+    var r: usize = 1;
+    for (xs) |v| r *= v;
+    return r;
+}
+
 pub fn swapPointers(A: anytype, B: @TypeOf(A)) void {
     const tmp: @TypeOf(A.*) = A.*;
     A.* = B.*;
