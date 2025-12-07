@@ -24,5 +24,5 @@ pub fn main() !void {
     const start = std.time.nanoTimestamp();
     try run();
     const end = std.time.nanoTimestamp();
-    std.debug.print("ns = {}\n", .{end - start});
+    util.printTime(end - start);
 }
