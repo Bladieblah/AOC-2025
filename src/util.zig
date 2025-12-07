@@ -49,7 +49,8 @@ pub fn parse_uint(val: []const u8) u64 {
 }
 
 pub fn parse_usize(val: []const u8) usize {
-    return parseInt(usize, val, 10) catch unreachable;
+    const trimmed = std.mem.trim(u8, val, " ");
+    return parseInt(usize, trimmed, 10) catch unreachable;
 }
 
 pub fn to_string(buf: []u8, val: anytype) []u8 {
