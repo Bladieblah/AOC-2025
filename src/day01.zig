@@ -10,7 +10,7 @@ const gpa = util.gpa;
 
 const data = @embedFile("data/day01.txt");
 
-pub fn main() !void {
+fn run() !void {
     var lines = util.tokenizeSca(u8, data, '\n');
     var acc: i32 = 50;
     var p1: u32 = 0;
@@ -43,4 +43,11 @@ pub fn main() !void {
     }
 
     util.print("({d}, {d})\n", .{ p1, p2 });
+}
+
+pub fn main() !void {
+    const start = std.time.nanoTimestamp();
+    try run();
+    const end = std.time.nanoTimestamp();
+    util.printTime(end - start);
 }

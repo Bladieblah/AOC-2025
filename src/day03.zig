@@ -32,7 +32,7 @@ fn getPower(bank: util.Str, count: u8) usize {
     return result;
 }
 
-pub fn main() !void {
+fn run() !void {
     var p1: usize = 0;
     var p2: usize = 0;
 
@@ -47,4 +47,11 @@ pub fn main() !void {
     }
 
     util.print("({d}, {d})\n", .{ p1, p2 });
+}
+
+pub fn main() !void {
+    const start = std.time.nanoTimestamp();
+    try run();
+    const end = std.time.nanoTimestamp();
+    util.printTime(end - start);
 }

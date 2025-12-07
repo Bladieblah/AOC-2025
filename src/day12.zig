@@ -10,7 +10,7 @@ const gpa = util.gpa;
 
 const data = @embedFile("data/day12.txt");
 
-pub fn main() !void {
+fn run() !void {
     var p1: usize = 0;
     var p2: usize = 0;
 
@@ -18,4 +18,11 @@ pub fn main() !void {
     p2 = 0;
 
     util.print("({d}, {d})\n", .{ p1, p2 });
+}
+
+pub fn main() !void {
+    const start = std.time.nanoTimestamp();
+    try run();
+    const end = std.time.nanoTimestamp();
+    std.debug.print("ns = {}\n", .{end - start});
 }

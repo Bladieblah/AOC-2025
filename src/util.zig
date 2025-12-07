@@ -51,3 +51,35 @@ pub fn parse_uint(val: []const u8) u64 {
 pub fn to_string(buf: []u8, val: anytype) []u8 {
     return std.fmt.bufPrint(buf, "{}", .{val}) catch unreachable;
 }
+
+pub fn printGrid(grid: anytype) void {
+    for (grid) |row| {
+        for (row) |v|
+            std.debug.print("{} ", .{v});
+        std.debug.print("\n", .{});
+    }
+}
+
+pub fn add(A: anytype, B: @TypeOf(A)) @TypeOf(A) {
+    var C: @TypeOf(A) = undefined;
+    for (A, 0..) |v, i|
+        C[i] = v + B[i];
+    return C;
+}
+
+pub fn swapPointers(A: anytype, B: @TypeOf(A)) void {
+    const tmp: @TypeOf(A.*) = A.*;
+    A.* = B.*;
+    B.* = tmp;
+}
+
+pub fn printTime(ns: i128) void {
+    if (ns >= 10_000_000_000)
+        print("{d} s\n", .{@divTrunc(ns, 1_000_000_000)})
+    else if (ns >= 10_000_000)
+        print("{d} ms\n", .{@divTrunc(ns, 1_000_000)})
+    else if (ns >= 10_000)
+        print("{d} µs\n", .{@divTrunc(ns, 1_000)})
+    else
+        print("{d} ns\n", .{ns});
+}
